@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Retrieval</title>
+    <style>
+        *{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+body{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column; /* Centering horizontally and vertically */
+  min-height: 100vh;
+  background: #0c0d20;
+}
+
+h1 {
+  font-size: 100px;
+  color: #fff;
+  text-align: center;
+  margin-bottom: 50px;
+  font-size: 45px;
+
+}
+.drag-area{
+  border: 2px dashed #fff;
+  height: 400px;
+  width: 500px;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  margin-bottom: 20px; /* Add some space between drag area and buttons */
+}
+.drag-area.active{
+  border: 2px solid #fff;
+}
+.drag-area .icon{
+  font-size: 100px;
+  color: #fff;
+}
+.drag-area header{
+  font-size: 30px;
+  font-weight: 500;
+  color: #fff;
+}
+.drag-area span{
+  font-size: 25px;
+  font-weight: 500;
+  color: #fff;
+  margin: 10px 0 15px 0;
+}
+.drag-area button{
+  padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: #fff;
+  color: #5256ad;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-container {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px; /* Add some space between drag area and buttons */
+}
+
+.button-container button {
+  padding: 10px 25px;
+  font-size: 20px;
+  font-weight: 500;
+  border: none;
+  outline: none;
+  background: #fff;
+  color: #5256ad;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+#clearButton {
+  background: #ffffff;
+  color: #5256ad;
+}
+
+#submitButton {
+  background: #ffffff;
+  color: #5256ad;
+}
+
+ #imageContainer {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+#imageContainer img {
+    max-width: 100%;
+    max-height: 100%;
+}
+
+   
+    
+    </style>
+</head>
+<body>
+    <h1>Semantic Based Image Retrieval</h1>
+<div class="drag-area" id="dragArea">
+    <header>Drag & Drop to Upload File</header>
+    <span>OR</span>
+    <button id="browseButton">Browse File</button>
+    <form id="uploadForm" action="/submit" method="POST" enctype="multipart/form-data">
+        <input id="fileInput" name="uploadedFile" type="file" hidden>
+    </form>
+    <div id="imageContainer"></div>
+</div>
+<div class="button-container">
+<button id="clearButton">Clear</button>
+<button id="submitButton">Submit</button>
+</div>
+<script> 
+    document.addEventListener("DOMContentLoaded", function() {
+        const dragArea = document.getElementById("dragArea");
+        const browseButton = document.getElementById("browseButton");
+        const fileInput = document.getElementById("fileInput");
+        const imageContainer = document.getElementById("imageContainer");
+        const submitButton = document.getElementById("submitButton");
+       
+
+        dragArea.addEventListener("dragover", (e) => {
+            e.preventDefault();
+            dragArea.classList.add("active");
+        });
+
+        dragArea.addEventListener("dragleave", () => {
+            dragArea.classList.remove("active");
+        });
+
+        dragArea.addEventListener("drop", (e) => {
+            e.preventDefault();
+            dragArea.classList.remove("active");
+            const files = e.dataTransfer.files;
+            handleFileSelection(files);
+        });
+
+        browseButton.addEventListener("click", () => {
+            fileInput.click();
+        });
+
+        fileInput.addEventListener("change", () => {
+            const files = fileInput.files;
+            handleFileSelection(files);
+        });
+
+        submitButton.addEventListener("click", () => {
+            const fileInput = document.getElementById("fileInput");
+            if (fileInput.files.length === 0) {
+                alert("Please select an image file before submitting.");
+            } else {
+                // Submit the form
+                document.getElementById("uploadForm").submit();
+            }
+        });
+
+// Event listener for the Clear button
+document.getElementById("clearButton").addEventListener("click", function(event) {
+  // Prevent the default form submission behavior
+  event.preventDefault();
+  
+  // Reload the current page
+  window.location.reload();
+});
+
+
+        function handleFileSelection(files) {
+    const file = files[0];
+    if (!file.type.startsWith("image/")) {
+        alert("Please select an image file.");
+        return;
+    }
+    const reader = new FileReader();
+    reader.onload = function () {
+        const img = new Image();
+        img.src = reader.result;
+        img.onload = function () {
+            console.log("Image loaded:", img.width, img.height);
+            // Hide the text elements
+            document.querySelector('.drag-area header').style.display = 'none';
+            document.querySelector('.drag-area span').style.display = 'none';
+            document.querySelector('.drag-area button').style.display = 'none';
+            // Calculate aspect ratio and fit image within the drag area
+            const aspectRatio = img.width / img.height;
+            const dragAreaWidth = dragArea.offsetWidth;
+            const dragAreaHeight = dragArea.offsetHeight;
+            if (aspectRatio > dragAreaWidth / dragAreaHeight) {
+                img.style.width = '100%';
+                img.style.height = 'auto';
+            } else {
+                img.style.width = 'auto';
+                img.style.height = '100%';
+            }
+            // Display the image in the imageContainer
+            imageContainer.innerHTML = ""; // Clear previous content
+            imageContainer.appendChild(img); // Append the image
+        };
+    };
+    reader.readAsDataURL(file);
+}
+
+    });
+</script>
+
+</body>
+</html>

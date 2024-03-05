@@ -1,0 +1,66 @@
+<!-- Coding By CodingNepal - youtube.com/codingnepal -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Retrieval</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+</head>
+<body>
+  <h1>Semantic Based Image Retrieval</h1>
+
+  <div class="drag-area">
+    <div class="icon"><i class="fas fa-cloud-upload-alt"></i></div>
+    <header>Drag & Drop to Upload File</header>
+    <span>OR</span>
+    <button>Browse File</button>
+    <form id="uploadForm" action="/submit" method="POST" enctype="multipart/form-data">
+      <input id="fileInput" name="uploadedFile" type="file" hidden >
+    </form>
+  </div>
+
+  <!-- Clear and Submit buttons -->
+  <div class="button-container">
+    <button id="clearButton">Clear</button>
+      <form id="uploadForm" enctype="multipart/form-data" action="/submit" method="post">
+        <input id="fileInput" name="uploadedFile" type="file" >
+        <button id="submitButton" type="button" onclick="submitFile()">Submit</button>
+      </form>
+    </div>
+
+
+    
+    <script src="/static/script.js"></script>
+    
+    <script>
+    function submitFile() {
+      var fileInput = document.querySelector("#fileInput");
+    
+      if (fileInput.files.length === 0) {
+        alert("Please select a file before submitting.");
+      } else {
+        // Submit the form
+        document.getElementById("uploadForm").submit();
+      }
+    }
+    </script>
+    
+</body>
+</html>
+<div class="container">
+  <div class="drag-area" id="dragArea">
+      <header>Drag & Drop to Upload File</header>
+      <span>OR</span>
+      <button id="browseButton">Browse File</button>
+      <form id="uploadForm" action="/submit" method="POST" enctype="multipart/form-data">
+          <input id="fileInput" name="uploadedFile" type="file" hidden>
+      </form>
+      <div id="imageContainer"></div>
+  </div>
+  <div class="button-container">
+      <button id="clearButton">Clear</button>
+      <button id="submitButton">Submit</button>
+  </div>
+</div>
