@@ -151,6 +151,7 @@ def serve_static(filename):
     return send_from_directory('static', filename)
 
 if __name__ == '__main__':
-    server_port = os.environ.get('PORT', '8080')
-    app.run(debug=False, port=server_port, host='0.0.0.0')
+    #server_port = os.environ.get('PORT', '8080')
+    #app.run(debug=False, port=server_port, host='0.0.0.0')
+    app.run()
 
