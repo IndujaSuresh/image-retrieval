@@ -27,7 +27,7 @@ def index():
 @app.route('/submit', methods=['POST'])
 def submit():
     # Load data from JSON file
-    input_filename = "/home/indujasuresh2001/8k/knowledge_base_data (1).json"
+    input_filename = "/image-retrieval/8k/knowledge_base_data (1).json"
     with open(input_filename, "r") as json_file:
         loaded_data = json.load(json_file)
     
@@ -35,9 +35,9 @@ def submit():
     image_names = loaded_data["image_names"]
 
     # Load word-to-index and index-to-word mappings
-    with open("/home/indujasuresh2001/8k/words_to_indices.pickle", "rb") as file:
+    with open("/image-retrieval/8k/words_to_indices.pickle", "rb") as file:
         word_to_index = pickle.load(file)
-    with open("/home/indujasuresh2001/8k/indices_to_words.pickle", "rb") as file:
+    with open("/image-retrieval/8k/indices_to_words.pickle", "rb") as file:
         index_to_word = pickle.load(file)
     
     # Preprocess knowledge_base_texts
@@ -89,7 +89,7 @@ def submit():
     resnet_model = ResNet50(include_top=False, weights='imagenet', pooling='avg', input_shape=(224, 224, 3))
 
     # Load the pre-trained captioning model
-    caption_model = load_model('/home/indujasuresh2001/8k/my_model.h5')
+    caption_model = load_model('/image-retrieval/8k/my_model.h5')
 
     # Function to preprocess the image and extract ResNet50 features
     def preprocess_image(img_path):
