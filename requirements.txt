@@ -1,1 +1,7 @@
-pip install matplotlib pandas numpy keras opencv-python scikit-image nltk
+matplotlib 
+pandas
+numpy
+keras 
+opencv-python 
+scikit-image 
+nltk
