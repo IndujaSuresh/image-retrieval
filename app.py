@@ -146,7 +146,7 @@ def submit():
     return render_template('nextpage.html', images=image_paths)
 
 
-@app.route('/static/<path:filename>')
+@app.route('/home/indujasuresh2001/Browser/static/<path:filename>')
 def serve_static(filename):
     return send_from_directory('static', filename)
 
