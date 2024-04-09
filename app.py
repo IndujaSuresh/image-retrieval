@@ -18,7 +18,7 @@ from tensorflow.keras.preprocessing.sequence import pad_sequences
 
 app = Flask(__name__)
 
-@app.route('/')
+@app.route('/Browser/templates/')
 def index():
     return render_template('index.html')
 
