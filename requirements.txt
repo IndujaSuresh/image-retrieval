@@ -8,3 +8,4 @@ nltk
 flask
 gunicorn
 scikit-learn
+tensorflow==2.13.0
